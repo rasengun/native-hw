@@ -17,17 +17,17 @@ import * as SplashScreen from "expo-splash-screen";
 const initialState = {
   login: "",
   email: "",
-  password: "",
 };
 
-export default Registrationscreen = () => {
+export default LoginScreen = () => {
   const [fontsLoaded] = useFonts({
     "Roboto-Regular": require("./assets/fonts/Roboto-Regular.ttf"),
   });
 
   const [state, setState] = useState(initialState);
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
-  const [focused, setFocused] = useState("");
+  const [focusedEmail, setFocusedEmail] = useState(false);
+  const [focusedPassword, setFocusedPassword] = useState(false);
 
   const keyboardHide = () => {
     setIsShowKeyboard(false);
@@ -64,42 +64,24 @@ export default Registrationscreen = () => {
             <View
               style={{
                 ...styles.formContainer,
-                paddingBottom: !isShowKeyboard ? 80 : 12,
+                paddingBottom: isShowKeyboard ? 32 : 140,
               }}
             >
-              <Text style={styles.title}>Реєстрація</Text>
+              <Text style={styles.title}>Вхід</Text>
 
               <View style={{ marginBottom: 16 }}>
                 <TextInput
-                  placeholder="Логін"
-                  value={state.value}
-                  onFocus={() => {
-                    setIsShowKeyboard(true);
-                    setFocused("login");
-                  }}
                   style={{
                     ...styles.input,
-                    borderColor: focused === "login" ? "#FF6C00" : "#E8E8E8",
+                    borderColor: focusedEmail ? "#FF6C00" : "#E8E8E8",
                   }}
-                  onBlur={() => setFocused("")}
-                  onChangeText={(value) =>
-                    setState((prevState) => ({ ...prevState, login: value }))
-                  }
-                />
-              </View>
-              <View style={{ marginBottom: 16 }}>
-                <TextInput
                   placeholder="Адреса електронної пошти"
                   value={state.email}
                   onFocus={() => {
                     setIsShowKeyboard(true);
-                    setFocused("email");
+                    setFocusedEmail(true);
                   }}
-                  style={{
-                    ...styles.input,
-                    borderColor: focused === "email" ? "#FF6C00" : "#E8E8E8",
-                  }}
-                  onBlur={() => setFocused("")}
+                  onBlur={() => setFocusedEmail(false)}
                   onChangeText={(value) =>
                     setState((prevState) => ({ ...prevState, email: value }))
                   }
@@ -107,17 +89,17 @@ export default Registrationscreen = () => {
               </View>
               <View style={{ marginBottom: 16, position: "relative" }}>
                 <TextInput
+                  style={{
+                    ...styles.input,
+                    borderColor: focusedPassword ? "#FF6C00" : "#E8E8E8",
+                  }}
                   placeholder="Пароль"
                   value={state.password}
                   onFocus={() => {
                     setIsShowKeyboard(true);
-                    setFocused("password");
+                    setFocusedPassword(true);
                   }}
-                  style={{
-                    ...styles.input,
-                    borderColor: focused === "password" ? "#FF6C00" : "#E8E8E8",
-                  }}
-                  onBlur={() => setFocused("false")}
+                  onBlur={() => setFocusedPassword(false)}
                   secureTextEntry={true}
                   onChangeText={(value) =>
                     setState((prevState) => ({ ...prevState, password: value }))
@@ -125,15 +107,16 @@ export default Registrationscreen = () => {
                 />
                 <Text style={styles.passwordText}>Показати</Text>
               </View>
-
               <TouchableOpacity
                 activeOpacity={0.7}
                 style={styles.btn}
                 onPress={handleSubmit}
               >
-                <Text style={styles.btnTitle}>Зареєструватися</Text>
+                <Text style={styles.btnTitle}>Увійти</Text>
               </TouchableOpacity>
-              <Text style={styles.signinText}>Уже є аккаунт? Увійти</Text>
+              <Text style={styles.signinText}>
+                Ще немає аккаунта? Зареєструватися
+              </Text>
             </View>
           </KeyboardAvoidingView>
         </ImageBackground>
@@ -153,7 +136,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
   },
   formContainer: {
-    paddingTop: 92,
+    paddingTop: 32,
     backgroundColor: "#FFFFFF",
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
@@ -192,10 +175,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#FF6C00",
-  },
-  btnTitle: {
-    color: "#FFFFFF",
-    fontSize: 16,
   },
   signinText: {
     color: "#1B4371",

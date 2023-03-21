@@ -20,7 +20,7 @@ const initialState = {
   password: "",
 };
 
-export default Registrationscreen = () => {
+export default RegistrationScreen = () => {
   const [fontsLoaded] = useFonts({
     "Roboto-Regular": require("./assets/fonts/Roboto-Regular.ttf"),
   });
@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
   title: {
     fontFamily: "Roboto-Regular",
     textAlign: "center",
-    fontWeight: 500,
+    // fontWeight: 500,
     fontSize: 30,
     marginBottom: 33,
   },
